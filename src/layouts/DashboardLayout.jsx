@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import Sidebar from '../Components/Sidebar';
-import Navbar from '../Components/Navbar';
+import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
+import Sidebar from "../Components/Sidebar";
+import Navbar from "../Components/Navbar";
 
 const DashboardLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarCollapsed(!isSidebarCollapsed);
+  };
+
+  const toggleMobileSidebar = () => {
+    setIsMobileSidebarOpen(!isMobileSidebarOpen);
   };
 
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
-      {isSidebarOpen && <Sidebar />}
+      <Sidebar
+        isSidebarCollapsed={isSidebarCollapsed}
+        isMobileSidebarOpen={isMobileSidebarOpen}
+        toggleSidebar={toggleSidebar}
+        toggleMobileSidebar={toggleMobileSidebar}
+      />
       <div className="flex-1 flex flex-col">
-        <Navbar toggleSidebar={toggleSidebar} />
+        <Navbar toggleSidebar={toggleSidebar} toggleMobileSidebar={toggleMobileSidebar} />
         <main className="p-6">
           <Outlet />
         </main>
