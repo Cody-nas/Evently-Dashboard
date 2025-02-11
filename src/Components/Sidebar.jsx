@@ -2,8 +2,8 @@ import { forwardRef } from "react";
 import { NavLink } from "react-router-dom";
 import { FiHome, FiCalendar, FiMessageSquare, FiPlus, FiMenu, FiX } from "react-icons/fi";
 import PropTypes from "prop-types";
-// import logoLight from "@/assets/logo-light.svg";
-// import logoDark from "@/assets/logo-dark.svg";
+import logoLight from "../assets/logo-light.svg";
+import logoDark from "../assets/logo-dark.svg";
 import { cn } from "../utils/cn";
 
 const navItems = [
@@ -18,15 +18,15 @@ const Sidebar = forwardRef(({ isSidebarCollapsed, isMobileSidebarOpen, toggleSid
     <aside
       ref={ref}
       className={cn(
-        "fixed z-[100] sm:static sm:z-auto flex h-full w-[240px] flex-col overflow-x-hidden border-r border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-900 transition-all duration-300 ease-in-out",
+        "fixed z-[100] sm:static sm:z-auto flex h-full w-[240px] flex-col overflow-x-hidden border-r  bg-white dark:border-slate-700 dark:bg-gray-800 transition-all duration-300 ease-in-out",
         isSidebarCollapsed ? "md:w-[70px] md:items-center" : "md:w-[240px]",
         isMobileSidebarOpen ? "max-md:left-0" : "max-md:-left-full"
       )}
     >
       <div className="flex items-center justify-between p-3">
         <div className="flex items-center gap-x-3 min-w-0">
-          {/* <img src={logoLight} alt="Logo" className="h-8 w-8 flex-shrink-0 dark:hidden" />
-          <img src={logoDark} alt="Logo" className="h-8 w-8 flex-shrink-0 hidden dark:block" /> */}
+          <img src={logoLight} alt="Logo" className="h-6 w-6 flex-shrink-0 dark:hidden" />
+          <img src={logoDark} alt="Logo" className="h-6 w-6 flex-shrink-0 hidden dark:block" />
           {!isSidebarCollapsed && (
             <p className="text-lg font-medium text-slate-900 dark:text-slate-50 truncate">Eventicket</p>
           )}
