@@ -11,6 +11,7 @@ const navItems = [
   { path: "/events", name: "Events", icon: FiCalendar },
   { path: "/messages", name: "Messages", icon: FiMessageSquare },
   { path: "/create-event", name: "Create Event", icon: FiPlus },
+
 ];
 
 const Sidebar = forwardRef(({ isSidebarCollapsed, isMobileSidebarOpen, toggleSidebar, toggleMobileSidebar }, ref) => {
@@ -55,7 +56,7 @@ const Sidebar = forwardRef(({ isSidebarCollapsed, isMobileSidebarOpen, toggleSid
               isSidebarCollapsed ? "md:justify-center md:w-[45px]" : "w-full"
             )}
           >
-            <Icon size={22} className="flex-shrink-0" />
+            <Icon size={20} className="flex-shrink-0" />
             {!isSidebarCollapsed && (
               <span className="truncate text-sm font-medium">
                 {name}
