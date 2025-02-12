@@ -9,6 +9,28 @@ const CreateEvent = () => {
   const [eventType, setEventType] = useState("single");
   const [locationType, setLocationType] = useState("venue");
   const [description, setDescription] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [location, setLocation] = useState("");
+
+
+  const saveEvent = () => {
+    const eventData = {
+      title,
+      summary,
+      eventType,
+      locationType,
+      description,
+      eventDate,
+      startTime,
+      endTime,
+      location,
+    };
+
+    localStorage.setItem("eventData", JSON.stringify(eventData));
+    alert("Event saved successfully!");
+  };
 
   // Accordion State
   const [openSections, setOpenSections] = useState({
@@ -229,7 +251,7 @@ const CreateEvent = () => {
             </div>
           )}
         </div>
-
+        <button onClick={saveEvent} className="mt-4 bg-blue-500 text-white p-2 rounded-lg">Save Event</button>
       </div>
     </div>
   );
