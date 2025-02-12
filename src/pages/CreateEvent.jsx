@@ -1,7 +1,7 @@
 
 import { useState } from "react";
-import BG from "../assets/cret.jpg";
-import { Calendar, Clock, MapPin, Bold, Italic, Link, List, Trash, Text, ChevronDown, ChevronUp } from "lucide-react";
+import BG from "../assets/cret.jpg"; <Plus />
+import { Calendar, Clock, MapPin, Bold, Italic, Link, List, Trash, Text, Plus, Minus, } from "lucide-react";
 
 const CreateEvent = () => {
   const [title, setTitle] = useState("");
@@ -70,7 +70,7 @@ const CreateEvent = () => {
             aria-controls="overview-content"
           >
             Event Overview
-            {openSections.overview ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            {openSections.overview ? <Minus size={20} /> : <Plus size={20} />}
           </button>
 
           <div id="overview-content" className={openSections.overview ? "p-6" : "hidden"}>
@@ -122,7 +122,7 @@ const CreateEvent = () => {
             aria-controls="date-content"
           >
             Date and Location
-            {openSections.date ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            {openSections.date ? <Minus size={20} /> : <Plus size={20} />}
           </button>
 
           <div id="date-content" className={openSections.date ? "p-6 space-y-6" : "hidden"}>
@@ -242,15 +242,16 @@ const CreateEvent = () => {
         </div>
 
 
-
         {/* Event Details Accordion */}
         <div className="border rounded-lg mt-6">
           <button
-            className="flex justify-between items-center w-full p-4 bg-gray-200 dark:bg-gray-800 text-lg font-semibold"
+            className="flex justify-between items-center w-full p-4 bg-gray-200 dark:bg-gray-800 text-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-700 transition"
             onClick={() => toggleSection("details")}
+            aria-expanded={openSections.details}
+            aria-controls="details-content"
           >
             Event Details
-            {openSections.details ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            {openSections.details ? <Minus size={20} /> : <Plus size={20} />}
           </button>
 
           {openSections.details && (
@@ -288,7 +289,14 @@ const CreateEvent = () => {
             </div>
           )}
         </div>
-        <button onClick={saveEvent} className="mt-4 bg-blue-500 text-white p-2 rounded-lg">Save Event</button>
+
+        {/* save button */}
+        <button
+          onClick={saveEvent}
+          className="mt-6 w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          Save Event
+        </button>
       </div>
     </div>
   );
