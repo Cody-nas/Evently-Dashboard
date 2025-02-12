@@ -15,6 +15,15 @@ const CreateEvent = () => {
   const [location, setLocation] = useState("");
 
 
+  const [mediaFile, setMediaFile] = useState(null);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setMediaFile(URL.createObjectURL(file)); // Create a preview URL
+    }
+  };
+
+
   const saveEvent = () => {
 
     if (!title || !summary || !eventDate || !startTime || !endTime || !location) {
