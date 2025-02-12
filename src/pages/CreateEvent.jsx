@@ -16,6 +16,11 @@ const CreateEvent = () => {
 
 
   const saveEvent = () => {
+
+    if (!title || !summary || !eventDate || !startTime || !endTime || !location) {
+      alert("Please fill in all required fields marked with *");
+      return;
+    }
     const eventData = {
       title,
       summary,
@@ -53,160 +58,192 @@ const CreateEvent = () => {
               Upload photos and videos
             </button>
           </div>
-          <img src={BG} alt="Event" className="w-full h-64 object-cover opacity-30" />
+          <img src={BG} alt="Event background" className="w-full h-64 object-cover opacity-30" />
         </div>
 
         {/* Event Overview Accordion */}
         <div className="border rounded-lg mt-6">
           <button
-            className="flex justify-between items-center w-full p-4 bg-gray-200 dark:bg-gray-800 text-lg font-semibold"
+            className="flex justify-between items-center w-full p-4 bg-gray-200 dark:bg-gray-800 text-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-700 transition"
             onClick={() => toggleSection("overview")}
+            aria-expanded={openSections.overview}
+            aria-controls="overview-content"
           >
             Event Overview
             {openSections.overview ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
 
-          {openSections.overview && (
-            <div className="p-6">
-              {/* Event Title */}
-              <div className="mb-4">
-                <label className="block text-lg font-semibold">Event Title</label>
-                <p className="block text-sm font-semibold">
-                  Be clear and descriptive with a title that tells people what your event is about.
-                </p>
-                <input
-                  type="text"
-                  className="w-full mt-2 p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600"
-                  placeholder="Event title *"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </div>
-
-              {/* Summary */}
-              <div className="mb-4">
-                <label className="block text-lg font-semibold">Summary</label>
-                <p className="block text-sm font-semibold">Grab people's attention with a short description about your event. Attendees will see this at the top of your event page. (140 characters max)</p>
-                <textarea
-                  className="w-full mt-2 p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600"
-                  placeholder="Summary *"
-                  maxLength={140}
-                  value={summary}
-                  onChange={(e) => setSummary(e.target.value)}
-                ></textarea>
-                <p className="text-right text-sm text-gray-500 dark:text-gray-400">{summary.length} / 140</p>
-              </div>
+          <div id="overview-content" className={openSections.overview ? "p-6" : "hidden"}>
+            {/* Event Title */}
+            <div className="mb-4">
+              <label htmlFor="event-title" className="block text-lg font-semibold">Event Title</label>
+              <p className="block text-sm text-gray-600 dark:text-gray-400">
+                Be clear and descriptive with a title that tells people what your event is about.
+              </p>
+              <input
+                id="event-title"
+                type="text"
+                className="w-full mt-2 p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+                placeholder="Event title *"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
             </div>
-          )}
+
+            {/* Summary */}
+            <div className="mb-4">
+              <label htmlFor="event-summary" className="block text-lg font-semibold">Summary</label>
+              <p className="block text-sm text-gray-600 dark:text-gray-400">
+                Grab people's attention with a short description about your event. (140 characters max)
+              </p>
+              <textarea
+                id="event-summary"
+                className="w-full mt-2 p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+                placeholder="Summary *"
+                maxLength={140}
+                value={summary}
+                onChange={(e) => setSummary(e.target.value)}
+                required
+              />
+              <p className="text-right text-sm text-gray-500 dark:text-gray-400">
+                {summary.length} / 140
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Date & Location Accordion */}
         <div className="border rounded-lg mt-6">
           <button
-            className="flex justify-between items-center w-full p-4 bg-gray-200 dark:bg-gray-800 text-lg font-semibold"
+            className="flex justify-between items-center w-full p-4 bg-gray-200 dark:bg-gray-800 text-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-700 transition"
             onClick={() => toggleSection("date")}
+            aria-expanded={openSections.date}
+            aria-controls="date-content"
           >
             Date and Location
             {openSections.date ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
 
-          {openSections.date && (
-            <div className="p-6 space-y-6">
-              {/* Step 1: Select Event Type */}
-              <div>
-                <h3 className="font-medium">1. Select Event Type</h3>
-                <div className="flex flex-wrap gap-4 mt-2">
-                  {["single", "recurring"].map((type) => (
-                    <button
-                      key={type}
-                      className={`flex items-center gap-2 p-3 border rounded-lg transition w-full sm:w-1/2 md:w-1/3 ${eventType === type ? "border-blue-500" : "border-gray-300 dark:border-gray-600"
-                        }`}
-                      onClick={() => setEventType(type)}
-                    >
-                      <Calendar className="w-5 h-5" />
-                      <span>{type === "single" ? "Single event" : "Recurring event"}</span>
-                    </button>
-                  ))}
-                </div>
+          <div id="date-content" className={openSections.date ? "p-6 space-y-6" : "hidden"}>
+            {/* Event Type Selection */}
+            <div>
+              <h3 className="font-medium mb-2">1. Select Event Type</h3>
+              <div className="flex flex-wrap gap-4">
+                {["single", "recurring"].map((type) => (
+                  <button
+                    key={type}
+                    className={`flex items-center gap-2 p-3 border rounded-lg transition w-full sm:w-1/2 md:w-1/3 
+                      ${eventType === type ? "border-blue-500 bg-blue-50 dark:bg-blue-900" : "border-gray-300 dark:border-gray-600"}
+                      hover:border-blue-300 dark:hover:border-blue-400`}
+                    onClick={() => setEventType(type)}
+                    aria-pressed={eventType === type}
+                  >
+                    <Calendar className="w-5 h-5" />
+                    <span className="capitalize">{type} event</span>
+                  </button>
+                ))}
               </div>
+            </div>
 
-              {/* Set Date and Time Section */}
-              <div>
-                <h3 className="font-medium">2. Set Date and Time</h3>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-2">
-                  {/* Event Date */}
-                  <div className="w-full">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Event Date</label>
-                    <div className="relative">
-                      <input
-                        type="date"
-                        className="w-full p-3 pl-10 border rounded-lg dark:bg-gray-800 dark:border-gray-600"
-                      />
-                      <Calendar className="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-                    </div>
-                  </div>
-
-                  {/* Start Time */}
-                  <div className="w-full">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Start Time</label>
-                    <div className="relative">
-                      <input
-                        type="time"
-                        step="900" // Sets 15-minute interval steps
-                        className="w-full p-3 pl-10 border rounded-lg dark:bg-gray-800 dark:border-gray-600"
-                      />
-                      <Clock className="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-                    </div>
-                  </div>
-
-                  {/* End Time */}
-                  <div className="w-full">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">End Time</label>
-                    <div className="relative">
-                      <input
-                        type="time"
-                        step="900"
-                        className="w-full p-3 pl-10 border rounded-lg dark:bg-gray-800 dark:border-gray-600"
-                      />
-                      <Clock className="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-                    </div>
+            {/* Date and Time */}
+            <div>
+              <h3 className="font-medium mb-2">2. Set Date and Time</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {/* Event Date */}
+                <div>
+                  <label htmlFor="event-date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Event Date *
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="event-date"
+                      type="date"
+                      className="w-full p-3 pl-10 border rounded-lg dark:bg-gray-800 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+                      value={eventDate}
+                      onChange={(e) => setEventDate(e.target.value)}
+                      required
+                    />
+                    <Calendar className="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
                   </div>
                 </div>
-              </div>
 
-
-              {/* Step 3: Set Location */}
-              <div>
-                <h3 className="font-medium">3. Set Event Location</h3>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {["venue", "online", "tba"].map((type) => (
-                    <button
-                      key={type}
-                      className={`p-2 border rounded-lg transition w-full sm:w-1/3 ${locationType === type ? "bg-blue-500 text-white" : "border-gray-300 dark:border-gray-600"
-                        }`}
-                      onClick={() => setLocationType(type)}
-                    >
-                      {type === "venue" ? "Venue" : type === "online" ? "Online event" : "TBA"}
-                    </button>
-                  ))}
+                {/* Start Time */}
+                <div>
+                  <label htmlFor="start-time" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Start Time *
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="start-time"
+                      type="time"
+                      step="900"
+                      className="w-full p-3 pl-10 border rounded-lg dark:bg-gray-800 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+                      value={startTime}
+                      onChange={(e) => setStartTime(e.target.value)}
+                      required
+                    />
+                    <Clock className="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
+                  </div>
                 </div>
-                <div className="relative mt-3">
-                  <input
-                    type="text"
-                    placeholder="Enter Location *"
-                    className="w-full p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600"
-                  />
-                  <MapPin className="absolute top-2 right-2 w-5 h-5 text-gray-500" />
+
+                {/* End Time */}
+                <div>
+                  <label htmlFor="end-time" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    End Time *
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="end-time"
+                      type="time"
+                      step="900"
+                      className="w-full p-3 pl-10 border rounded-lg dark:bg-gray-800 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+                      value={endTime}
+                      onChange={(e) => setEndTime(e.target.value)}
+                      required
+                    />
+                    <Clock className="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
+                  </div>
                 </div>
               </div>
             </div>
-          )}
+
+            {/* Location */}
+            <div>
+              <h3 className="font-medium mb-2">3. Set Event Location</h3>
+              <div className="flex flex-wrap gap-2 mb-3">
+                {["venue", "online", "tba"].map((type) => (
+                  <button
+                    key={type}
+                    className={`p-2 border rounded-lg transition w-full sm:w-1/3
+                      ${locationType === type ? "bg-blue-500 text-white" : "border-gray-300 dark:border-gray-600"}
+                      hover:bg-blue-400 hover:text-white`}
+                    onClick={() => setLocationType(type)}
+                    aria-pressed={locationType === type}
+                  >
+                    {type === "venue" ? "Venue" : type === "online" ? "Online event" : "TBA"}
+                  </button>
+                ))}
+              </div>
+              <div className="relative">
+                <input
+                  type="text"
+                  id="location"
+                  placeholder="Enter Location *"
+                  className="w-full p-3 pl-3 pr-10 border rounded-lg dark:bg-gray-800 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  required
+                />
+                <MapPin className="absolute top-1/2 right-3 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
+              </div>
+            </div>
+          </div>
         </div>
 
 
 
-        {/* Overview / Description Accordion */}
+        {/* Event Details Accordion */}
         <div className="border rounded-lg mt-6">
           <button
             className="flex justify-between items-center w-full p-4 bg-gray-200 dark:bg-gray-800 text-lg font-semibold"
