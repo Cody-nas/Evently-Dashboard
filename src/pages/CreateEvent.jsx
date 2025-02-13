@@ -62,10 +62,22 @@ const CreateEvent = () => {
       {/* Hero Image */}
       <div className="max-w-4xl mx-auto">
         <div className="relative bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden">
+
+          <input
+            type="file"
+            id="media-upload"
+            accept="image/*, video/*"
+            className="hidden"
+            onChange={handleFileChange}
+          />
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <button className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
+            {/* Upload Button */}
+            <label
+              htmlFor="media-upload"
+              className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer"
+            >
               Upload photos and videos
-            </button>
+            </label>
           </div>
           <img src={BG} alt="Event background" className="w-full h-64 object-cover opacity-30" />
         </div>
