@@ -16,12 +16,16 @@ const CreateEvent = () => {
 
 
   const [mediaFile, setMediaFile] = useState(null);
+  const [mediaType, setMediaType] = useState(""); // Track file type
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setMediaFile(URL.createObjectURL(file)); // Create a preview URL
+      setMediaFile(URL.createObjectURL(file)); // Create preview URL
+      setMediaType(file.type.startsWith("video") ? "video" : "image"); // Detect file type
     }
   };
+
 
 
   const saveEvent = () => {
@@ -62,7 +66,6 @@ const CreateEvent = () => {
       {/* Hero Image */}
       <div className="max-w-4xl mx-auto">
         <div className="relative bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden">
-
           <input
             type="file"
             id="media-upload"
@@ -79,6 +82,16 @@ const CreateEvent = () => {
               Upload photos and videos
             </label>
           </div>
+          {/* Preview */}
+          {mediaFile && (
+            <>
+              {mediaType === "video" ? (
+                <video src={mediaFile} controls className="w-full h-64 object-cover" />
+              ) : (
+                <img src={mediaFile} alt="Preview" className="w-full h-64 object-cover" />
+              )}
+            </>
+          )}
           <img src={BG} alt="Event background" className="w-full h-64 object-cover opacity-30" />
         </div>
 
