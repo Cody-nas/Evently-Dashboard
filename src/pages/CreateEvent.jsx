@@ -3,6 +3,7 @@ import { useState } from "react";
 import BG from "../assets/cret.jpg"; <Plus />
 import { Calendar, Clock, MapPin, Bold, Italic, Link, List, Trash, Text, Plus, Minus, } from "lucide-react";
 
+// create event
 const CreateEvent = () => {
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
@@ -14,7 +15,7 @@ const CreateEvent = () => {
   const [endTime, setEndTime] = useState("");
   const [location, setLocation] = useState("");
 
-
+  //import media
   const [mediaFile, setMediaFile] = useState(null);
   const [mediaType, setMediaType] = useState(""); // Track file type
 
@@ -25,9 +26,7 @@ const CreateEvent = () => {
       setMediaType(file.type.startsWith("video") ? "video" : "image"); // Detect file type
     }
   };
-
-
-
+  // save event data to local storage
   const saveEvent = () => {
 
     if (!title || !summary || !eventDate || !startTime || !endTime || !location) {
@@ -49,7 +48,6 @@ const CreateEvent = () => {
     localStorage.setItem("eventData", JSON.stringify(eventData));
     alert("Event saved successfully!");
   };
-
   // Accordion State
   const [openSections, setOpenSections] = useState({
     overview: true,
