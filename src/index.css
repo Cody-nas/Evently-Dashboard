@@ -3,7 +3,7 @@
 @plugin "tailwindcss-animate";
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
+/* :root {
   --background: hsl(0 0% 100%);
   --foreground: hsl(240 10% 3.9%);
   --card: hsl(0 0% 100%);
@@ -56,7 +56,7 @@
   --chart-3: hsl(30 80% 55%);
   --chart-4: hsl(280 65% 60%);
   --chart-5: hsl(340 75% 55%);
-}
+} */
 
 @theme inline {
   --color-background: var(--background);
