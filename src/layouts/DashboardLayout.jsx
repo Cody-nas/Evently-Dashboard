@@ -16,16 +16,19 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="flex min-h-full bg-gray-100 dark:bg-gray-900">
+    <div className="flex min-h-full fixed w-screen bg-gray-100 dark:bg-gray-900">
       <Sidebar
         isSidebarCollapsed={isSidebarCollapsed}
         isMobileSidebarOpen={isMobileSidebarOpen}
         toggleSidebar={toggleSidebar}
         toggleMobileSidebar={toggleMobileSidebar}
       />
-      <div className="flex-1 flex flex-col">
-        <Navbar toggleSidebar={toggleSidebar} toggleMobileSidebar={toggleMobileSidebar} />
-        <main className="p-6">
+      <div className="flex-1 flex flex-col ">
+        <Navbar
+          toggleSidebar={toggleSidebar}
+          toggleMobileSidebar={toggleMobileSidebar}
+        />
+        <main className="p-6 max-h-screen overflow-auto">
           <Outlet />
         </main>
       </div>

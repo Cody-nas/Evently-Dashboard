@@ -1,12 +1,5 @@
-
 import { useState, useCallback, useEffect } from "react";
-import {
-  Plus,
-  Minus,
-  Upload,
-  X,
-  Info,
-} from "lucide-react";
+import { Plus, Minus, Upload, X, Info } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -69,43 +62,46 @@ const CreateEvent = () => {
     }
   }, [eventData, isDirty]);
 
-  const handleInputChange = useCallback((e) => {
-    const { name, value, type } = e.target;
-    setEventData((prev) => {
-      const newData = { ...prev };
-      if (name.includes(".")) {
-        const [parent, child] = name.split(".");
-        newData[parent] = { ...newData[parent], [child]: value };
-      } else {
-        newData[name] = type === "number" ? parseFloat(value) || "" : value;
+  const handleInputChange = useCallback(
+    (e) => {
+      const { name, value, type } = e.target;
+      setEventData((prev) => {
+        const newData = { ...prev };
+        if (name.includes(".")) {
+          const [parent, child] = name.split(".");
+          newData[parent] = { ...newData[parent], [child]: value };
+        } else {
+          newData[name] = type === "number" ? parseFloat(value) || "" : value;
+        }
+        return newData;
+      });
+      setIsDirty(true);
+      // Clear error when field is edited
+      if (errors[name]) {
+        setErrors((prev) => ({ ...prev, [name]: null }));
       }
-      return newData;
-    });
-    setIsDirty(true);
-    // Clear error when field is edited
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: null }));
-    }
-  }, [errors]);
+    },
+    [errors]
+  );
 
   const handleFileChange = useCallback((e) => {
     const files = Array.from(e.target.files);
-    const newFiles = files.map(file => ({
+    const newFiles = files.map((file) => ({
       url: URL.createObjectURL(file),
       type: file.type.startsWith("video") ? "video" : "image",
-      name: file.name
+      name: file.name,
     }));
-    setMediaFiles(prev => [...prev, ...newFiles]);
+    setMediaFiles((prev) => [...prev, ...newFiles]);
     setIsDirty(true);
   }, []);
 
   const removeFile = useCallback((index) => {
-    setMediaFiles(prev => prev.filter((_, i) => i !== index));
+    setMediaFiles((prev) => prev.filter((_, i) => i !== index));
     setIsDirty(true);
   }, []);
 
   const toggleSection = useCallback((section) => {
-    setOpenSections(prev => ({ ...prev, [section]: !prev[section] }));
+    setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));
   }, []);
 
   const validateForm = useCallback(() => {
@@ -118,10 +114,10 @@ const CreateEvent = () => {
       "endTime",
       "location",
       "organizerInfo.name",
-      "organizerInfo.email"
+      "organizerInfo.email",
     ];
 
-    requiredFields.forEach(field => {
+    requiredFields.forEach((field) => {
       if (field.includes(".")) {
         const [parent, child] = field.split(".");
         if (!eventData[parent][child]) {
@@ -133,7 +129,8 @@ const CreateEvent = () => {
     });
 
     if (eventData.isVirtual && !eventData.virtualLink) {
-      newErrors.virtualLink = "Virtual meeting link is required for virtual events";
+      newErrors.virtualLink =
+        "Virtual meeting link is required for virtual events";
     }
 
     if (eventData.startTime && eventData.endTime) {
@@ -156,7 +153,7 @@ const CreateEvent = () => {
 
     try {
       // Simulating API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       localStorage.setItem("savedEvent", JSON.stringify(eventData));
       localStorage.removeItem("eventDraft");
       setIsDirty(false);
@@ -167,7 +164,7 @@ const CreateEvent = () => {
   }, [eventData, validateForm]);
 
   return (
-    <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen p-6">
+    <div className="bg-white dark:bg-gray-900 text-gray-900  scroll-auto overflow-hidden dark:text-white min-h-screen p-6">
       <form className="max-w-4xl mx-auto space-y-6">
         <Card>
           <CardHeader>
@@ -179,11 +176,22 @@ const CreateEvent = () => {
               <Label>Event Media</Label>
               <div className="grid grid-cols-3 gap-4 mb-4">
                 {mediaFiles.map((file, index) => (
-                  <div key={index} className="relative rounded-lg overflow-hidden">
+                  <div
+                    key={index}
+                    className="relative rounded-lg overflow-hidden"
+                  >
                     {file.type === "video" ? (
-                      <video src={file.url} controls className="w-full h-32 object-cover" />
+                      <video
+                        src={file.url}
+                        controls
+                        className="w-full h-32 object-cover"
+                      />
                     ) : (
-                      <img src={file.url} alt={file.name} className="w-full h-32 object-cover" />
+                      <img
+                        src={file.url}
+                        alt={file.name}
+                        className="w-full h-32 object-cover"
+                      />
                     )}
                     <button
                       type="button"
@@ -209,7 +217,9 @@ const CreateEvent = () => {
                   </label>
                 )}
               </div>
-              <p className="text-sm text-gray-500">Upload up to 6 photos or videos</p>
+              <p className="text-sm text-gray-500">
+                Upload up to 6 photos or videos
+              </p>
             </div>
 
             {/* Event Sections */}
@@ -229,7 +239,9 @@ const CreateEvent = () => {
                         error={errors.title}
                       />
                       {errors.title && (
-                        <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.title}
+                        </p>
                       )}
                     </div>
                     <div>
@@ -248,7 +260,10 @@ const CreateEvent = () => {
                         id="isVirtual"
                         checked={eventData.isVirtual}
                         onCheckedChange={(checked) => {
-                          setEventData(prev => ({ ...prev, isVirtual: checked }));
+                          setEventData((prev) => ({
+                            ...prev,
+                            isVirtual: checked,
+                          }));
                           setIsDirty(true);
                         }}
                       />
@@ -270,7 +285,7 @@ const CreateEvent = () => {
                           name="eventDate"
                           value={eventData.eventDate}
                           onChange={handleInputChange}
-                          min={new Date().toISOString().split('T')[0]}
+                          min={new Date().toISOString().split("T")[0]}
                           error={errors.eventDate}
                         />
                       </div>
@@ -305,7 +320,11 @@ const CreateEvent = () => {
                         value={eventData.location}
                         onChange={handleInputChange}
                         error={errors.location}
-                        placeholder={eventData.isVirtual ? "Virtual meeting link" : "Physical location"}
+                        placeholder={
+                          eventData.isVirtual
+                            ? "Virtual meeting link"
+                            : "Physical location"
+                        }
                       />
                     </div>
                   </div>
@@ -360,7 +379,9 @@ const CreateEvent = () => {
                 content: (
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="organizerInfo.name">Organizer Name *</Label>
+                      <Label htmlFor="organizerInfo.name">
+                        Organizer Name *
+                      </Label>
                       <Input
                         id="organizerInfo.name"
                         name="organizerInfo.name"
@@ -370,7 +391,9 @@ const CreateEvent = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="organizerInfo.email">Organizer Email *</Label>
+                      <Label htmlFor="organizerInfo.email">
+                        Organizer Email *
+                      </Label>
                       <Input
                         type="email"
                         id="organizerInfo.email"
@@ -381,7 +404,9 @@ const CreateEvent = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="organizerInfo.phone">Organizer Phone</Label>
+                      <Label htmlFor="organizerInfo.phone">
+                        Organizer Phone
+                      </Label>
                       <Input
                         type="tel"
                         id="organizerInfo.phone"
@@ -403,11 +428,7 @@ const CreateEvent = () => {
                   <span className="font-medium">{label}</span>
                   {openSections[key] ? <Minus size={20} /> : <Plus size={20} />}
                 </button>
-                {openSections[key] && (
-                  <div className="p-6">
-                    {content}
-                  </div>
-                )}
+                {openSections[key] && <div className="p-6">{content}</div>}
               </div>
             ))}
 
