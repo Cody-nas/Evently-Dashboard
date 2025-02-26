@@ -7,7 +7,7 @@ const Navbar = ({ toggleSidebar, toggleMobileSidebar }) => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   return (
-    <header className="w-full bg-white dark:bg-gray-800 shadow-md p-4">
+    <header className="w-full bg-white border  dark:bg-gray-800 shadow-md p-4">
       <div className="flex items-center justify-between">
         {/* Mobile Sidebar Toggle Button */}
         <button
@@ -18,11 +18,11 @@ const Navbar = ({ toggleSidebar, toggleMobileSidebar }) => {
         </button>
 
         {/* Search Bar - Hidden on mobile unless search icon clicked */}
-        <div className="hidden md:block relative flex-1 max-w-md mx-4">
+        <div className="hidden md:block relative  flex-1 max-w-md mx-4">
           <input
             type="text"
             placeholder="Search..."
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="w-full px-4 py-2 border rounded-2xl focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           />
           <FiSearch className="absolute right-3 top-3 text-gray-500 dark:text-gray-300" />
         </div>
