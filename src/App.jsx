@@ -1,10 +1,10 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import DashboardLayout from './layouts/DashboardLayout';
-import Overview from './pages/Overview';
-import Events from './pages/Events';
-import Messages from './pages/Messages';
-import CreateEvent from './pages/CreateEvent';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import DashboardLayout from "./layouts/DashboardLayout";
+import Overview from "./pages/Overview";
+import Events from "./pages/Events";
+import Messages from "./pages/Messages";
+import CreateEvent from "./pages/CreateEvent";
 
 const App = () => {
   return (
